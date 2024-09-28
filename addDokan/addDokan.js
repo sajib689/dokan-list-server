@@ -4,18 +4,31 @@ const router = express.Router();
 const addDokanSchema = require('../addDokanSchema/addDokanSchema.js')
 const Dokan = new mongoose.model('Dokan', addDokanSchema)
 
-router.get('/dokanlist', async(req, res) => {
-    
-})
-router.post('/dokanlist', async(req, res) => {
+router.get('/', async(req, res) => {
     try {
-        const newDokan = await Dokan(req.body)
-        const saveDokan = await newDokan.save()
-        res.status(200).json({message: 'dokan added successfully'})
+       const dokan = await Dokan.find()
+        res.status(200).json({dokan})
     } catch (err) {
-        console.log(err.message)
+        console.error(err)
     }
 })
+router.post('/', async (req, res) => {
+    try {
+        const { shopName } = req.body;
+        const isExists = await Dokan.findOne({ shopName });
+        if (isExists) {
+            return res.status(400).json({ message: 'Shop already exists' });
+        }
+        const newDokan = new Dokan(req.body);
+        await newDokan.save();
+        
+        res.status(200).json({ message: 'Dokan added successfully' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
 
 
 
