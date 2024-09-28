@@ -1,6 +1,8 @@
-
+const express = require('express')
 const mongoose = require('mongoose');
-const router = mongoose.Router();
+const router = express.Router();
+const addDokanSchema = require('../addDokanSchema/addDokanSchema.js')
+
 
 router.get('/dokanlist', async(req, res) => {
     
