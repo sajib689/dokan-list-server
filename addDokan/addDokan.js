@@ -10,6 +10,7 @@ router.get('/dokanlist', async(req, res) => {
 router.post('/dokanlist', async(req, res) => {
     try {
         const newDokan = await Dokan(req.body)
+        const saveDokan = await newDokan.save()
         res.status(200).json({message: 'dokan added successfully'})
     } catch (err) {
         console.log(err.message)
