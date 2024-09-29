@@ -12,6 +12,27 @@ router.get('/', async(req, res) => {
         console.error(err)
     }
 })
+router.get('/:id', async (req, res) => {
+    const id = await Dokan.findById(req.params.id)
+    try {
+        if(id) {
+            res.status(200).json({id})
+        }
+    } catch(error) {
+        console.error(error.message)
+    }
+})
+router.delete('/:id', async (req, res) => {
+    try {
+        const id = await Dokan.findById(req.params.id)
+        if(id) {
+            await Dokan.deleteOne(id)
+            res.status(200).json({id})
+        }
+    } catch (error) {
+        console.error(error.message)
+    }
+})
 router.post('/', async (req, res) => {
     try {
         const { shopName } = req.body;
@@ -28,6 +49,17 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 });
+
+router.get('/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const result = await Dokan.findOne(query);
+        res.status(200).json(result)
+    } catch (err) {
+        console.error(err.message);
+    }
+})
 
 
 
