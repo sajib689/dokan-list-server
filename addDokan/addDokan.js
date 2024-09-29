@@ -26,8 +26,8 @@ router.delete('/:id', async (req, res) => {
     try {
         const id = await Dokan.findById(req.params.id)
         if(id) {
-            await Dokan.deleteOne(id)
-            res.status(200).json({id})
+            await Dokan.deleteOne({_id: id})
+            res.status(200).json({message: 'delete success'})
         }
     } catch (error) {
         console.error(error.message)
@@ -66,4 +66,4 @@ router.get('/:id', async (req, res) => {
 
 
 
-module.exports = router
+module.exports = router;
